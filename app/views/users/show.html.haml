@@ -1,0 +1,11 @@
+- model_class = User
+
+%p
+  %strong= model_class.human_attribute_name(:user_id) + ':'
+  %br
+  = @user.name
+%p
+  %strong= model_class.human_attribute_name(:title) + ':'
+  %br
+  = @user.email
+

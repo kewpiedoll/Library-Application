@@ -42,6 +42,10 @@ gem 'spring',        group: :development
 gem 'haml'
 gem 'haml-rails'
 
+group :assets do
+  gem 'twitter-bootstrap-rails'
+end
+
 group :test, :development do 
   gem 'rspec-rails'
   # travis needs rake explicitly installed!
