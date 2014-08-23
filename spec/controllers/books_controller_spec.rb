@@ -20,6 +20,11 @@ require 'rails_helper'
 
 RSpec.describe BooksController, :type => :controller do
 
+  before(:all) do
+    Book.destroy_all
+  end
+
+
   # This should return the minimal set of attributes required to create a valid
   # Book. As you add validations to Book, be sure to
   # adjust the attributes here as well.
@@ -158,6 +163,7 @@ RSpec.describe BooksController, :type => :controller do
       delete :destroy, {:id => book.to_param}, valid_session
       expect(response).to redirect_to(books_url)
     end
+
   end
 
 end

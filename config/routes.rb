@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
+  post '/rate' => 'rater#create', :as => 'rate'
   resources :authors
 
   root 'books#index'
   devise_for :users
-  resources :books
-
+  resources :books do
+    resources :reviews
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

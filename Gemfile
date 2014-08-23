@@ -48,18 +48,37 @@ gem 'haml'
 gem 'haml-rails'
 
 group :test, :development do 
+  # we'll use rspec to test
   gem 'rspec-rails'
+  # convenient to tidy up the database before and after testing
+  gem 'database_cleaner'
+  # so we can 'visit' pages in testing
+  gem 'capybara'
   # travis needs rake explicitly installed!
   gem 'rake'
   # sqlite3 for test / devel ; postgres for production
   gem 'sqlite3'
-
-  gem 'factory_girl'
+  gem "factory_girl_rails", "~> 4.0"
   # show our test coverage
   gem 'simplecov', require: false
+  # flog and flay to test complexity quickly and locally
+  gem 'flog'
+  gem 'flay'
 end
 
 group :production do
   # sqlite3 for test / devel ; postgres for production
   gem 'pg'
 end
+
+# upload book covers
+gem 'carrierwave'
+# process images
+gem 'rmagick', require: false
+
+# hopefully easy implementation of tags
+gem 'acts-as-taggable-on'
+
+# try again to make not-ugly
+gem "twitter-bootstrap-rails"
+gem 'ratyrate', :github => 'wazery/ratyrate'            #star ratings 
