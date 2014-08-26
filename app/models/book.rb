@@ -1,6 +1,8 @@
 class Book < ActiveRecord::Base
   acts_as_taggable_on :tags
 
+  self.per_page = 10   #pagination
+
   before_validation :clean_isbn
   before_validation :squash_whitespace
 
@@ -20,6 +22,7 @@ class Book < ActiveRecord::Base
     message: 'ISBN13 is a 13 digit format'
   }
 
+  validates :owner_id, presence: true
   ##FIXME this breaks everything.
   ##Matt, could you convert the book tests to FactoryGirl and make this work?
   #validates :cover, presence: true
@@ -41,6 +44,10 @@ class Book < ActiveRecord::Base
 
   def reviewable?
     self.is_active == true
+  end
+
+  def user
+    User.find(owner_id)
   end
   
   ratyrate_rateable 'rating'

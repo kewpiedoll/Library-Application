@@ -1,10 +1,10 @@
 class ReviewsController < ApplicationController
   before_action :set_review, only: [:show, :edit, :update, :destroy]
-
+  before_filter :check_valid_user, only:  [:edit, :update, :destroy, :new] 
   
   def index
     @book = book = Book.find(params[:book_id])
-    @reviews = book.reviews
+    @reviews = book.reviews.paginate(:page => params[:page])
   end
 
   def show

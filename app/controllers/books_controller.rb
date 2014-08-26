@@ -1,8 +1,8 @@
 class BooksController < ApplicationController
   before_action :set_book, only: [:show, :edit, :update, :destroy]
-
+  before_filter :check_valid_user, only: [:new, :edit, :update, :destroy]
   def index
-    @books = Book.all
+    @books = Book.paginate(:page => params[:page])
   end
 
   def new
@@ -10,19 +10,25 @@ class BooksController < ApplicationController
   end
 
   def create
-    @item = @book = Book.new(book_params)
+    @book = Book.new(book_params)
+    @book.owner_id = current_user.id
+    @item = @book
     super
   end
 
   def update
+    unless @book.owner_id == current_user.id
+      redirect_to book_url, notice: "You can't edit someone else's book"
+      return
+    end
     @item = @book
     @current_parameters = book_params
     super
   end
 
   def destroy
-    notice = "You can't destroy a viewed book."
-    if @book.destroyable?
+    notice = "You can't destroy a reviewed book, or one you don't own"
+    if (@book.destroyable? && @book.owner_id == current_user.id)
       @book.destroy
       notice = 'Book was successfully destroyed.'
     end
@@ -48,6 +54,7 @@ class BooksController < ApplicationController
                                    :cover,
                                    :cover_cache,
                                    :remote_cover_url,
+                                   :owner_id,
                                    :author_id,
                                    author_attributes: [:given_name, :family_name])
     end

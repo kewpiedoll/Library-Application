@@ -18,17 +18,17 @@ FactoryGirl.define do
  end
 
  factory :book do
-   association :owner_id, factory: :user
+   association :owner, factory: :user
    association :author_id, factory: :author
    sequence(:title) { |n| "The #{n}House at Pooh Corner" }
    cover { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec', 'support', 'covers', 'cover.gif')) }
    is_active true
- end
+ end 
 
- factory :review do 
+
+  factory :review do 
    association :user_id, factory: :user
    association :book_id, factory: :book
-   text "This is a good review!"
+   text 'This is a great review' 
  end
-
 end
